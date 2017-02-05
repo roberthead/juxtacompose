@@ -8,13 +8,14 @@ Bundler.require(*Rails.groups)
 
 module Juxtacompose
   class Application < Rails::Application
-    
+
   config.generators do |g|
     g.orm             :active_record
     g.template_engine :haml
     g.test_framework  :rspec, fixture: false
     g.stylesheets     false
     g.javascripts     false
+    g.factory_girl suffix: 'factory'
   end
 
     # Settings in config/environments/* take precedence over those specified here.
