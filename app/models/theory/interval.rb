@@ -21,6 +21,14 @@ class Theory::Interval
     @semitones = semitones
   end
 
+  def simplified
+    Theory::Interval.for_semitones(semitones % 12)
+  end
+
+  def compound?
+    semitones > 12
+  end
+
   def to_i
     semitones
   end
