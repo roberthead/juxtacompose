@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Theory::Interval do
-  let(:major_third) { Theory::Interval.major_third }
-  let(:minor_third) { Theory::Interval.minor_third }
-  let(:perfect_fifth) { Theory::Interval.perfect_fifth }
+  let(:major_third) { Theory::Interval.named(:major_third) }
+  let(:minor_third) { Theory::Interval.named(:minor_third) }
+  let(:perfect_fifth) { Theory::Interval.named(:perfect_fifth) }
 
   specify { expect(major_third).to be > minor_third }
 

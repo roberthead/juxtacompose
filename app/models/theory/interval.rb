@@ -1,15 +1,21 @@
 class Theory::Interval
   include Comparable
 
+  private_class_method :new
+
   NAMES = %w{unison minor_second major_second minor_third major_third perfect_fourth tritone perfect_fifth minor_sixth major_sixth minor_seventh major_seventh perfect_octave}
 
-  NAMES.each_with_index do |name, semitones|
-    define_singleton_method name do
-      new(semitones)
-    end
+  attr_reader :semitones
+
+  def self.for_semitones(semitones)
+    @intervals_memo ||= {}
+    @intervals_memo[semitones] ||= new(semitones)
   end
 
-  attr_reader :semitones
+  def self.named(name)
+    name = name.to_s
+    for_semitones(NAMES.index(name)) if name.in?(NAMES)
+  end
 
   def initialize(semitones)
     @semitones = semitones
@@ -20,11 +26,11 @@ class Theory::Interval
   end
 
   def +(value)
-    Theory::Interval.new(to_i + value.to_i)
+    Theory::Interval.for_semitones(to_i + value.to_i)
   end
 
   def -(value)
-    Theory::Interval.new((to_i - value.to_i).abs)
+    Theory::Interval.for_semitones((to_i - value.to_i).abs)
   end
 
   def <=>(other)
