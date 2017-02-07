@@ -30,4 +30,9 @@ RSpec.describe Theory::Note do
       expect(Theory::Note.from_name('A#7').midi).to eq(106)
     end
   end
+
+  describe 'comparison' do
+    specify { expect(described_class.new(60)).to be > described_class.new(51)}
+    specify { expect(described_class.new(71)).to eq described_class.new(71) }
+  end
 end

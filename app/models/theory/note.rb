@@ -1,9 +1,6 @@
 module Theory
   class Note
-    PITCH_CLASS_SHARP_NAMES = %w{C C# D D# E F F# G G# A A# B}
-    PITCH_CLASS_FLAT_NAMES = %w{C Db D Eb E F Gb G Ab A Bb B}
-
-    attr_reader :midi, :name
+    include Comparable
 
     def self.from_name(name)
       notes[midi_from_name(name)]
@@ -15,47 +12,41 @@ module Theory
 
     def self.midi_from_name(name)
       @midi_from_name_memo ||= {}
-      @midi_from_name_memo[name] ||=
-        (octave_for_name(name).to_i + 1) * 12 + pitch_class_for_name(name)
+      @midi_from_name_memo[name] ||= begin
+        octave = (name[-2..-2] == '-' ? name[-2..-1] : name.last).to_i
+        pitch_class_number = PitchClass.for_note_name(name).number
+        (octave + 1) * 12 + pitch_class_number
+      end
     end
 
-    def self.pitch_class_for_name(name)
-      pitch_class_name = pitch_class_name_for_name(name)
-      PITCH_CLASS_SHARP_NAMES.index(pitch_class_name) ||
-        PITCH_CLASS_FLAT_NAMES.index(pitch_class_name)
-    end
+    attr_reader :midi
+    attr_reader :name
+    attr_reader :pitch_class
 
-    def self.pitch_class_name_for_name(name)
-      name.sub(octave_for_name(name), '')
-    end
+    alias_method :scientific_pitch_notation, :name
 
-    def self.octave_for_name(name)
-      (name[-2..-2] == '-' ? name[-2..-1] : name.last)
-    end
-
-    def initialize(midi_number)
+    def initialize(midi_number, key_signature_type = :sharp)
       @midi = midi_number.to_i
+      @pitch_class = PitchClass.new(midi)
       @name = build_name
-    end
-
-    def pitch_class
-      midi % 12
     end
 
     def octave
       (midi / 12) - 1
     end
 
-    def pitch_class_name
-      PITCH_CLASS_SHARP_NAMES[pitch_class]
+    def to_i
+      midi
     end
 
-    alias_method :scientific_pitch_notation, :name
+    def <=>(other)
+      self.midi <=> other.midi
+    end
 
     private
 
     def build_name
-      pitch_class_name + octave.to_s
+      pitch_class.sharp_spelling + octave.to_s
     end
   end
 end
