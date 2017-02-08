@@ -23,11 +23,11 @@ RSpec.describe Theory::PitchClass do
 
   describe '.+' do
     specify { expect(Theory::PitchClass.get(60) + 3).to eq Theory::PitchClass.get(63) }
-    specify { expect(Theory::PitchClass.get(4) + Theory::Interval.for_semitones(3)).to eq Theory::PitchClass.get(7) }
+    specify { expect(Theory::PitchClass.get(4) + Theory::Interval.get(3)).to eq Theory::PitchClass.get(7) }
   end
 
   describe '.-' do
     specify { expect(Theory::PitchClass.get(60) - 3).to eq Theory::PitchClass.get(57) }
-    specify { expect(Theory::PitchClass.get(4) - Theory::Interval.for_semitones(3)).to eq Theory::PitchClass.get(1) }
+    specify { expect(Theory::PitchClass.get(4) - Theory::Interval.get(3)).to eq Theory::PitchClass.get(1) }
   end
 end

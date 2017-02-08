@@ -7,7 +7,7 @@ RSpec.describe Theory::Interval do
   let(:perfect_fourth) { Theory::Interval.named(:perfect_fourth) }
   let(:perfect_fifth) { Theory::Interval.named(:perfect_fifth) }
   let(:perfect_octave) { Theory::Interval.named(:perfect_octave) }
-  let(:perfect_11th) { Theory::Interval.for_semitones(17) }
+  let(:perfect_11th) { Theory::Interval.get(17) }
 
   specify { expect(major_third).to be > minor_third }
 

@@ -7,14 +7,14 @@ class Theory::Interval
 
   attr_reader :semitones
 
-  def self.for_semitones(semitones)
+  def self.get(semitones)
     @intervals_memo ||= {}
     @intervals_memo[semitones] ||= new(semitones)
   end
 
   def self.named(name)
     name = name.to_s
-    for_semitones(NAMES.index(name)) if name.in?(NAMES)
+    get(NAMES.index(name)) if name.in?(NAMES)
   end
 
   def initialize(semitones)
@@ -22,7 +22,7 @@ class Theory::Interval
   end
 
   def simplified
-    Theory::Interval.for_semitones(semitones % 12)
+    Theory::Interval.get(semitones % 12)
   end
 
   def simple?
@@ -38,11 +38,11 @@ class Theory::Interval
   end
 
   def +(value)
-    Theory::Interval.for_semitones(to_i + value.to_i)
+    Theory::Interval.get(to_i + value.to_i)
   end
 
   def -(value)
-    Theory::Interval.for_semitones((to_i - value.to_i).abs)
+    Theory::Interval.get((to_i - value.to_i).abs)
   end
 
   def <=>(other)

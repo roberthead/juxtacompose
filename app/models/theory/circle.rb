@@ -1,17 +1,31 @@
 class Theory::Circle
-  attr_reader :pitch_classes
-
-  def initialize
-    assign_pitch_classes
+  def self.of_fifths
+    by_interval(Theory::Interval.named(:perfect_fifth))
   end
+
+  def self.by_interval(interval)
+    @circles ||= {}
+    @circles[interval.to_i] ||= new(interval)
+  end
+
+  attr_reader :interval, :pitch_classes
+
+  def initialize(interval)
+    @interval = Theory::Interval.get(interval.to_i)
+    @pitch_classes = pitch_classes_by_interval(interval)
+  end
+
+  private_class_method :new
 
   private
 
-  def assign_pitch_classes
-    @pitch_classes = [Theory::PitchClass.new(0)]
-    loop do
-      @pitch_classes << @pitch_classes.last + Theory::Interval.for_semitones(7)
-      break if @pitch_classes.first == @pitch_classes.last
+  def pitch_classes_by_interval(interval)
+    [Theory::PitchClass.get(0)].tap do |list|
+      loop do
+        next_pitch_class = list.last + interval
+        break if next_pitch_class == list.first
+        list << next_pitch_class
+      end
     end
   end
 end
