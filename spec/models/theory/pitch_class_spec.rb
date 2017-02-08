@@ -1,20 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe Theory::PitchClass do
-  describe 'spellings' do
-    specify { expect(described_class.new(60).sharp_spelling).to eq('C') }
-    specify { expect(described_class.new(60).flat_spelling).to eq('C') }
+  subject(:pitch_class) { Theory::PitchClass.get(number) }
 
-    specify { expect(described_class.new(61).sharp_spelling).to eq('C#') }
-    specify { expect(described_class.new(61).flat_spelling).to eq('Db') }
+  context 'when constructed with a number between zero and eleven' do
+    let(:number) { rand(12) }
+
+    specify { expect(pitch_class.number).to eq number }
+    specify { expect(pitch_class.to_i).to eq number }
   end
 
-  describe '.for_note_name' do
-    specify { expect(Theory::PitchClass.for_note_name('D#').number).to eq 3 }
-    specify { expect(Theory::PitchClass.for_note_name('Ab5').number).to eq 8 }
+  context 'when constructed with a midi note number' do
+    let(:number) { 53 } # F3
+
+    specify { expect(pitch_class.number).to eq 5 } # F
+    specify { expect(pitch_class).to eq 5 }
+  end
+
+  describe 'equality' do
+    specify { expect(Theory::PitchClass.get(53)).to eq Theory::PitchClass.get(5) }
   end
 
   describe '.+' do
-    specify { expect(described_class.new(60) + 3).to eq described_class.new(63)}
+    specify { expect(Theory::PitchClass.get(60) + 3).to eq Theory::PitchClass.get(63) }
+    specify { expect(Theory::PitchClass.get(4) + Theory::Interval.for_semitones(3)).to eq Theory::PitchClass.get(7) }
+  end
+
+  describe '.-' do
+    specify { expect(Theory::PitchClass.get(60) - 3).to eq Theory::PitchClass.get(57) }
+    specify { expect(Theory::PitchClass.get(4) - Theory::Interval.for_semitones(3)).to eq Theory::PitchClass.get(1) }
   end
 end
