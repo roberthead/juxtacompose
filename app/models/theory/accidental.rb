@@ -15,6 +15,10 @@ class Theory::Accidental
     @accidentals[string] ||= new(string)
   end
 
+  def self.for_interval(semitones)
+    ACCIDENTAL_SEMITONES.key(semitones.to_i)
+  end
+
   def initialize(string)
     @string = string
   end

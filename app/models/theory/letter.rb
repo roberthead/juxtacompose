@@ -1,35 +1,42 @@
 class Theory::Letter
   # Defines the natural relationship between the natural letter-named notes
-  PITCH_CLASSES = {
-    'C' => Theory::PitchClass.get(0),
-    'D' => Theory::PitchClass.get(2),
-    'E' => Theory::PitchClass.get(4),
-    'F' => Theory::PitchClass.get(5),
-    'G' => Theory::PitchClass.get(7),
-    'A' => Theory::PitchClass.get(9),
-    'B' => Theory::PitchClass.get(11),
+
+  NAMES = ('A'..'G').to_a
+
+  NATURAL_PITCH_CLASS_NUMBERS = {
+    'C' => 0,
+    'D' => 2,
+    'E' => 4,
+    'F' => 5,
+    'G' => 7,
+    'A' => 9,
+    'B' => 11,
   }
 
-  def self.get(letter)
+  def self.all
+    NAMES.map { |letter_name| get(letter_name)}
+  end
+
+  def self.get(name)
     @letters ||= {}
-    letter = letter.to_s.first.upcase.sub(/H/, 'B')
-    if letter.in?(PITCH_CLASSES.keys)
-      @letters[letter] ||= new(letter)
+    name = name.to_s.first.upcase
+    if name.in?(NAMES)
+      @letters[name] ||= new(name)
     end
   end
 
-  attr_reader :string
+  attr_reader :name
 
-  delegate :to_s, to: :string
+  delegate :to_s, to: :name
+  delegate :to_sym, to: :name
   delegate :to_i, to: :pitch_class
-  delegate :to_sym, to: :string
 
-  def initialize(string)
-    @string = string
+  def initialize(name)
+    @name = name
   end
 
   def pitch_class
-    PITCH_CLASSES[string]
+    NATURAL_PITCH_CLASS_NUMBERS[name]
   end
 
   def ==(value)

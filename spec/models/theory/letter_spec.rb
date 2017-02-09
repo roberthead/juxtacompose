@@ -15,13 +15,6 @@ describe Theory::Letter do
     specify { expect(letter).to eq 'D' }
   end
 
-  context "fetched with 'h'" do
-    subject(:letter) { Theory::Letter.get('h') }
-
-    specify { expect(letter.pitch_class).to eq 11 }
-    specify { expect(letter).to eq 'B' }
-  end
-
   context "fetched with 'X'" do
     subject(:letter) { Theory::Letter.get('X') }
 
