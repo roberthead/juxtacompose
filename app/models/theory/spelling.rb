@@ -5,14 +5,16 @@ class Theory::Spelling
   attr_reader :accidental
   attr_reader :pitch_class
 
+  delegate :blank?, to: :name
+
   def self.get(name)
     @spellings ||= {}
-    if match = name.match(/([A-G])([b#]*)(\-?\d+)?/i)
+    if match = name.match(/([A-G])([b#]*)(\-?\d+)?/)
       letter_name, accidental_string, _octave = match.captures
       letter = Theory::Letter.get(letter_name)
       accidental = Theory::Accidental.get(accidental_string)
       if letter.present?
-        return @spellings[letter] ||= new(letter, accidental)
+        return @spellings[[letter, accidental].join] ||= new(letter, accidental)
       end
     end
   end
@@ -23,8 +25,12 @@ class Theory::Spelling
     @pitch_class = letter.pitch_class + accidental.try(:semitones)
   end
 
-  def to_s
+  def name
     [letter, accidental].join
+  end
+
+  def to_s
+    name
   end
 
   def ==(value)
