@@ -8,6 +8,8 @@ class Theory::Accidental
 
   attr_reader :string
 
+  delegate :blank?, to: :string
+
   def self.get(string)
     @accidentals ||= {}
     @accidentals[string] ||= new(string)
