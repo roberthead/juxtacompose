@@ -3,6 +3,10 @@ class Theory::Circle
     by_interval(Theory::Interval.named(:perfect_fifth))
   end
 
+  def self.of_fourths
+    by_interval(Theory::Interval.named(:perfect_fourth))
+  end
+
   def self.by_interval(interval)
     @circles ||= {}
     @circles[interval.to_i] ||= new(interval)
