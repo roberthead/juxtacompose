@@ -25,6 +25,17 @@ class Theory::Letter
     end
   end
 
+  def self.from_pitch_class(pitch_class)
+    @letters ||= {}
+    pitch_class = pitch_class.to_i % 12
+    name =
+      NAMES.detect { |name| pitch_class == NATURAL_PITCH_CLASS_NUMBERS[name] } ||
+      NAMES.detect { |name| pitch_class == NATURAL_PITCH_CLASS_NUMBERS[name]+1 }
+    if name.in?(NAMES)
+      @letters[name] ||= new(name)
+    end
+  end
+
   attr_reader :name
 
   delegate :to_s, to: :name
