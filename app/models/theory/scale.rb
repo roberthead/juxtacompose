@@ -1,6 +1,7 @@
 class Theory::Scale
   PATTERNS = {
     major: [0, 2, 4, 5, 7, 9, 11, 12],
+    minor: [0, 2, 3, 5, 7, 8, 10, 12],
     minor_pentatonic: [0, nil, 3, 5, 7, nil, 10, 12],
   }
 
@@ -9,6 +10,11 @@ class Theory::Scale
   def self.major
     @scales ||= {}
     @scales[:major] ||=  new(PATTERNS[:major])
+  end
+
+  def self.minor
+    @scales ||= {}
+    @scales[:minor] ||=  new(PATTERNS[:minor])
   end
 
   def self.minor_pentatonic
@@ -28,7 +34,8 @@ class Theory::Scale
     pattern.each do |interval_from_tonic|
       letter = Theory::Letter.all[letter_index]
       if interval_from_tonic
-        accidental = Theory::Accidental.for_interval((starting_pitch_class + interval_from_tonic) % 12 - letter.pitch_class)
+        accidental_interval = letter.pitch_class.smallest_interval_to(Theory::PitchClass.get(starting_pitch_class + interval_from_tonic))
+        accidental = Theory::Accidental.for_interval(accidental_interval)
         spellings << Theory::Spelling.get([letter, accidental].join)
       end
       letter_index = (letter_index + 1) % 7

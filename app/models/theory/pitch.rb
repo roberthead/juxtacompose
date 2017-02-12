@@ -8,12 +8,20 @@ class Theory::Pitch
 
   def self.get(value)
     @pitches ||= {}
-    @pitches[value] ||= pitch_from_name(value)
+    @pitches[value] ||= from_name(value) || from_number(value)
   end
 
-  def self.pitch_from_name(name)
+  def self.from_name(name)
+    return nil unless name == name.to_s
     spelling = Theory::Spelling.get(name)
     octave = name.scan(/-?\d+$/).first.to_i
+    new(spelling, octave) if spelling.present? && octave.in?(-1..9)
+  end
+
+  def self.from_number(number)
+    return nil unless number == number.to_i
+    spelling = Theory::Spelling.from_number(number)
+    octave = (number.to_i / 12) - 1
     new(spelling, octave) if spelling.present? && octave.in?(-1..9)
   end
 

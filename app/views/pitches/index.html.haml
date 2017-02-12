@@ -1,0 +1,16 @@
+%h1 Pitches
+
+%table
+  %thead
+    %tr
+      %td
+        MIDI note number
+      %td
+        Scientific Pitch Notation
+  %tbody
+    - @pitches.each do |pitch|
+      %tr
+        %td
+          = pitch.to_i
+        %td
+          = pitch.to_s

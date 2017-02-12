@@ -36,4 +36,22 @@ describe Theory::Spelling do
     its(:pitch_class) { is_expected.to eq 3 }
     it { is_expected.to eq 'Eb' }
   end
+
+  context "for 'Cb'" do
+    subject(:spelling) { Theory::Spelling.get('Cb') }
+
+    its(:letter) { is_expected.to eq 'C' }
+    its(:accidental) { is_expected.to eq 'b' }
+    its(:pitch_class) { is_expected.to eq 11 }
+    it { is_expected.to eq 'Cb' }
+  end
+
+  context "for 'B#'" do
+    subject(:spelling) { Theory::Spelling.get('B#') }
+
+    its(:letter) { is_expected.to eq 'B' }
+    its(:accidental) { is_expected.to eq '#' }
+    its(:pitch_class) { is_expected.to eq 0 }
+    it { is_expected.to eq 'B#' }
+  end
 end

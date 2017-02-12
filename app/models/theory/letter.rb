@@ -47,7 +47,7 @@ class Theory::Letter
   end
 
   def pitch_class
-    NATURAL_PITCH_CLASS_NUMBERS[name]
+    Theory::PitchClass.get(NATURAL_PITCH_CLASS_NUMBERS[name])
   end
 
   def ==(value)

@@ -64,4 +64,9 @@ describe Theory::Pitch do
       it { is_expected.to be_blank }
     end
   end
+
+  describe 'construction from a number' do
+    specify { expect(Theory::Pitch.from_number(60)).to eq 'C4' }
+    specify { expect(Theory::Pitch.from_number(70)).to eq 'A#4' }
+  end
 end

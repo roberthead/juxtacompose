@@ -3,7 +3,7 @@ class Theory::PitchClass
 
   def self.get(number)
     @pitch_classes ||= {}
-    number %= 12
+    number = number.to_i % 12
     @pitch_classes[number] ||= new(number)
   end
 
@@ -29,6 +29,16 @@ class Theory::PitchClass
 
   def ==(value)
     to_i == value.to_i
+  end
+
+  def intervals_to(other)
+    delta = other.to_i - to_i
+    inverse = delta > 0 ? delta - 12 : delta + 12
+    [delta, inverse].sort_by(&:abs).map { |interval| Theory::Interval.get(interval) }
+  end
+
+  def smallest_interval_to(other)
+    intervals_to(other).first
   end
 
   private_class_method :new
