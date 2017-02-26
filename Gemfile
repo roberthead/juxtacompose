@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby "~> 2.3.1"
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -17,7 +18,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
-gem 'head_music', '~> 0.6.2', :path => "~/github.com/roberthead/head_music/"
+gem 'head_music', '~> 0.6.4'
+# gem 'head_music', :path => "~/github.com/roberthead/head_music/"
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
