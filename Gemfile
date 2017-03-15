@@ -6,6 +6,7 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'devise'
 gem 'haml'
 gem 'haml-rails'
@@ -18,8 +19,12 @@ gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
-gem 'head_music', '~> 0.6.4'
+gem 'head_music', '~> 0.11.2'
 # gem 'head_music', :path => "~/github.com/roberthead/head_music/"
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
